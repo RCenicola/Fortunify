@@ -2,10 +2,16 @@
 <html>
   <head>
     <title>Example of the Authorization Code flow with Spotify</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <style type="text/css">
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+   <link rel="stylesheet" href="index.css">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style class="mainLook" type="text/css">
       #login, #loggedin {
         display: none;
+      }
+      body {
+        background: orange;
       }
       .text-overflow {
         overflow: hidden;
@@ -17,10 +23,14 @@
   </head>
 
   <body>
-    <div class="container">
-      <div id="login">
-        <h1>This is an example of the Authorization Code flow</h1>
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+    <div class="container top-buffer" align="center">
+      <div class="page-header">
+        <h1> Spotistry </h1>
+      <div class="jumbotron top-buffer" id="login">
+        <h2>What does your musical taste say about you?</h2>
+        <h4>Login to allow the Spotist to read your musical mystique.</h4>
+
+      <a href="/login" class="btn btn-primary top-buffer" >Log in with Spotify</a>
       </div>
       <div id="loggedin">
         <div id="user-profile">
@@ -29,18 +39,18 @@
         </div>
         <div id="fortune">
         </div>
-        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+      <!--  <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button> -->
       </div>
     </div>
 
     <script id="user-profile-template" type="text/x-handlebars-template">
-      <h1>Logged in as {{display_name}}</h1>
-      <div class="media">
-        <div class="pull-left">
-          <img class="media-object" width="150" src="{{images.0.url}}" />
+      <h3 class="top-buffer">Let's see {{display_name}}...I'm getting a strong read.</h3>
+      <div  class="img-responsive top-buffer">
+        <div>
+          <img class="img-rounded center-block" style="margin:0 auto;" width="150" src="{{images.0.url}}" />
         </div>
-        <div class="media-body">
-          <dl class="dl-horizontal">
+        <!--    <div class="media-body">
+      <dl class="dl-horizontal">
             <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
             <dt>Id</dt><dd>{{id}}</dd>
             <dt>Email</dt><dd>{{email}}</dd>
@@ -49,41 +59,84 @@
             <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
             <dt>Country</dt><dd>{{country}}</dd>
           </dl>
-        </div>
+        </div>-->
       </div>
     </script>
 
-    <script id="fourtune-teller" type="text/x-handlebars-template">
-    <h3> Results based on a list of your top 20 songs, each identified by 6 unique genres.</h3>
-    <dt>Top Genre</dt><dd>{{word1}}</dd>
-    <dt>Second Top Genre</dt><dd>{{word2}}</dd>
+    <script id="fourtune-teller" class="top-buffer" type="text/x-handlebars-template">
+    <h4 class="top-buffer"> My senses are indicating that you strongly identify with <span class="genreRev"> {{word1}} </span> and <span class="genreRev"> {{word2}} </span> - an interesting combination indeed.</h4>
+    <h4> After exploring your musical anthology, I feel <span class="highlight"> {{noun}} {{adjective}} </span> </h4>
+
+
+  <!--  <dt>Top Genre</dt><dd>{{word1}}</dd>
+    <dt>Second Top Genre</dt><dd>{{word2}}</dd> -->
 
     </script>
 
     <script id="oauth-template" type="text/x-handlebars-template">
-      <h2>oAuth info</h2>
+  <!--    <h2>oAuth info</h2>
       <dl class="dl-horizontal">
         <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
         <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
       </dl>
     </script>
+-->
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
 
       var Dictionaray = [
-        {name: ["pop", "art pop"],
-        nouns: ["soup", "chair"],
-        adjectives: ["green", "fast"]
+        {name: ["indie", "indie rock", "indie pop", "indietronica", "indie folk","stomp and holler","brooklyn indie",],
+        nouns: ["you are someone who is always on top of the trends,",
+                "you get along with pretty much anyone,"],
+        adjectives: ["but could really use a little more deodorant.",
+                    "but can't handle having to decide between a pumpkin spice latte or a non-fat, decaf mocha with whip at Starbucks."]
 
       },
 
-      {name: ["folk-pop", "art pop"],
+      {
+        name: ["pop", "noise pop", "art pop", "folk-pop", "chamber pop"],
+        nouns: ["folk", "rocking chair"],
+        adjectives: ["big", "old"]
+
+    },
+
+    {
+      name: ["rap", "pop rap", "hip-hop",],
       nouns: ["folk", "rocking chair"],
       adjectives: ["big", "old"]
 
-    },
+  },
+
+  {
+    name: ["emo", "alternative emo", "folk-pop"],
+    nouns: ["folk", "rocking chair"],
+    adjectives: ["big", "old"]
+
+},
+
+{
+  name: ["punk", "pop punk", "permanent wave", "emo punk", "garage punk", "hardcore punk"],
+  nouns: ["folk", "rocking chair"],
+  adjectives: ["big", "old"]
+
+},
+
+{
+  name: ["rock", "modern rock", "psychedelic rock", "british invasion", "classic rock",
+          "album rock", "soft rock"],
+  nouns: ["folk", "rocking chair"],
+  adjectives: ["big", "old"]
+
+},
+
+{
+  name: ["melancholia", "slow core", "indie r&b",],
+  nouns: ["folk", "rocking chair"],
+  adjectives: ["big", "old"]
+
+},
 
       {
         name: ["strange"],
@@ -98,6 +151,26 @@
         for (var i = 0; i < Dictionaray.length; i++) {
           if(Dictionaray[i].name.includes(genre)){
             return  Dictionaray[i];
+          }
+        }
+
+        return Dictionaray[Dictionaray.length-1];
+      }
+
+      function findAdjectiveInDictionary(genre) {
+        for (var i = 0; i < Dictionaray.length; i++) {
+          if(Dictionaray[i].name.includes(genre)){
+            return  Dictionaray[i]['adjectives'][Math.floor(Math.random() * Dictionaray[i]['adjectives'].length)];
+          }
+        }
+
+        return Dictionaray[Dictionaray.length-1];
+      }
+
+      function findNounInDictionary(genre) {
+        for (var i = 0; i < Dictionaray.length; i++) {
+          if(Dictionaray[i].name.includes(genre)){
+            return  Dictionaray[i]['nouns'][Math.floor(Math.random() * Dictionaray[i]['nouns'].length)];
           }
         }
 
@@ -212,12 +285,16 @@
                   console.log("second most common " + secondMostCommonGenre);
                   console.log("dictionary entry for:" + mostCommonGenre);
                   console.log(findInDictionary(mostCommonGenre));
+                  console.log(findNounInDictionary(mostCommonGenre));
+                  console.log(findAdjectiveInDictionary(mostCommonGenre));
                   console.log("dictionary entry for:" + secondMostCommonGenre);
                   console.log(findInDictionary(secondMostCommonGenre));
                   $('#login').hide();
                   $('#loggedin').show();
                   response.word1 = mostCommonGenre;
                   response.word2 = secondMostCommonGenre;
+                  response.noun = (findNounInDictionary(mostCommonGenre));
+                  response.adjective = (findAdjectiveInDictionary(mostCommonGenre));
                   fortunePlaceholder.innerHTML = fortuneTemplate(response);
                 }
             }); }
