@@ -325,7 +325,7 @@
                   $('#loggedin').show();
                   response.word1 = mostCommonGenre;
                   response.word2 = secondMostCommonGenre;
-                  response.noun = (findNounInDictionary(mostCommonGenre));
+                  response.noun = (findNounInDictionary(musicals));
                   response.adjective = (findAdjectiveInDictionary(mostCommonGenre));
                   fortunePlaceholder.innerHTML = fortuneTemplate(response);
                 }
